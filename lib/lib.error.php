@@ -26,7 +26,8 @@ if (defined('LOGFILE'))
     if ($fp = @fopen(LOGFILE, 'a')) 
     {
         define('STDLOG', $fp);
-    } else {
+    } else
+    {
         fwrite(STDERR, "Cannot open log file " . LOGFILE .
             " for appending; continuing without logging.\n");
     }
