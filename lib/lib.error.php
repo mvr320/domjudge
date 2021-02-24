@@ -14,7 +14,8 @@ $verbose  = LOG_NOTICE;
 $loglevel = LOG_DEBUG;
 
 // Open standard error:
-if (!defined('STDERR')) {
+if (!defined('STDERR'))
+{
     define('STDERR', fopen('php://stderr', 'w'));
 }
 
