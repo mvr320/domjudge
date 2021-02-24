@@ -16,7 +16,8 @@ $loglevel = LOG_DEBUG;
 // Open standard error:
 if (!defined('STDERR'))
 {
-    define('STDERR', fopen('php://stderr', 'w'));
+    define(
+        'STDERR', fopen('php://stderr', 'w'));
 }
 
 // Open log file:
