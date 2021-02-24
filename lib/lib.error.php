@@ -19,8 +19,10 @@ if (!defined('STDERR')) {
 }
 
 // Open log file:
-if (defined('LOGFILE')) {
-    if ($fp = @fopen(LOGFILE, 'a')) {
+if (defined('LOGFILE')) 
+{
+    if ($fp = @fopen(LOGFILE, 'a')) 
+    {
         define('STDLOG', $fp);
     } else {
         fwrite(STDERR, "Cannot open log file " . LOGFILE .
