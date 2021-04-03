@@ -845,7 +845,7 @@ Version 3.0.0 Release Candidate 1 - 16 June 2009
 Version 2.2.0 - 11 August 2008
 ------------------------------
  - Do not install domjudge straight in $HOME by default.
- - [security] Add coherence check in jury interface whether basic authentication
+ - [security] Add coherence check check in jury interface whether basic authentication
    is enabled, and lock down jury inferface also for non-GET/POST requests
  - Fix race condition in team password check.
  - Improved MySQL query performance.
