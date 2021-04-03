@@ -119,7 +119,7 @@ statements that require non-standard evaluation.
 Checking your configuration
 ---------------------------
 From the front page the *Config checker* is available. This tool will
-do a basic coherence check of your DOMjudge setup and gives helpful hints
+do a basic coherence check check of your DOMjudge setup and gives helpful hints
 to improve it. Be sure to run it when you've set up your contest.
 
 
