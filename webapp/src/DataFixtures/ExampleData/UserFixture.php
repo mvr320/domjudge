@@ -16,9 +16,9 @@ class UserFixture extends AbstractExampleDataFixture implements DependentFixture
     {
         $user = new User();
         $user
-            ->setUsername('placeholder')
-            ->setName('placeholder user for example team')
-            ->setPlainPassword('placeholder')
+            ->setUsername('dummy')
+            ->setName('dummy user for example team')
+            ->setPlainPassword('dummy')
             ->setTeam($this->getReference(TeamFixture::TEAM_REFERENCE))
             ->addUserRole($manager->getRepository(Role::class)->findOneBy(['dj_role' => 'team']));
 

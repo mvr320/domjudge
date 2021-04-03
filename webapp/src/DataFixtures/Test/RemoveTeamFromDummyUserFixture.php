@@ -6,11 +6,11 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class RemoveTeamFromPlaceholderUserFixture extends Fixture
+class RemoveTeamFromDummyUserFixture extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $user = $manager->getRepository(User::class)->findOneBy(['username' => 'placeholder']);
+        $user = $manager->getRepository(User::class)->findOneBy(['username' => 'dummy']);
         $user->setTeam();
         $manager->flush();
     }
