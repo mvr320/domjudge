@@ -110,12 +110,12 @@ trap "rm -f \$tmpfiles 2>/dev/null; rmdir \$tmp 2>/dev/null; exit 1" 1 2 13 15 ;
  { test -n "$RANDOM" && tmp=$TMPDIR/cg$$-$RANDOM && (umask 077 && mkdir $tmp) ; } ||
  { tmp=$TMPDIR/cg-$$ && (umask 077 && mkdir $tmp) && echo "Warning: creating insecure temp directory" >&2 ; } ||
  { echo "$me: cannot create a temporary directory in $TMPDIR" >&2 ; exit 1 ; } ;
-placeholder=$tmp/placeholder ;
-tmpfiles="$placeholder.c $placeholder.o $placeholder.rel $placeholder" ;
+demo=$tmp/demo ;
+tmpfiles="$demo.c $demo.o $demo.rel $demo" ;
 case $CC_FOR_BUILD,$HOST_CC,$CC in
- ,,)    echo "int x;" > $placeholder.c ;
+ ,,)    echo "int x;" > $demo.c ;
 	for c in cc gcc c89 c99 ; do
-	  if ($c -c -o $placeholder.o $placeholder.c) >/dev/null 2>&1 ; then
+	  if ($c -c -o $demo.o $demo.c) >/dev/null 2>&1 ; then
 	     CC_FOR_BUILD="$c"; break ;
 	  fi ;
 	done ;
@@ -433,7 +433,7 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" in
 	exit ;;
     mips:*:*:UMIPS | mips:*:*:RISCos)
 	eval $set_cc_for_build
-	sed 's/^	//' << EOF >$placeholder.c
+	sed 's/^	//' << EOF >$demo.c
 #ifdef __cplusplus
 #include <stdio.h>  /* for printf() prototype */
 	int main (int argc, char *argv[]) {
@@ -454,9 +454,9 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" in
 	  exit (-1);
 	}
 EOF
-	$CC_FOR_BUILD -o $placeholder $placeholder.c &&
-	  placeholderarg=`echo "${UNAME_RELEASE}" | sed -n 's/\([0-9]*\).*/\1/p'` &&
-	  SYSTEM_NAME=`$placeholder $placeholderarg` &&
+	$CC_FOR_BUILD -o $demo $demo.c &&
+	  demoarg=`echo "${UNAME_RELEASE}" | sed -n 's/\([0-9]*\).*/\1/p'` &&
+	  SYSTEM_NAME=`$demo $demoarg` &&
 	    { echo "$SYSTEM_NAME"; exit; }
 	echo mips-mips-riscos${UNAME_RELEASE}
 	exit ;;
@@ -530,7 +530,7 @@ EOF
     *:AIX:2:3)
 	if grep bos325 /usr/include/stdio.h >/dev/null 2>&1; then
 		eval $set_cc_for_build
-		sed 's/^		//' << EOF >$placeholder.c
+		sed 's/^		//' << EOF >$demo.c
 		#include <sys/systemcfg.h>
 
 		main()
@@ -541,7 +541,7 @@ EOF
 			exit(0);
 			}
 EOF
-		if $CC_FOR_BUILD -o $placeholder $placeholder.c && SYSTEM_NAME=`$placeholder`
+		if $CC_FOR_BUILD -o $demo $demo.c && SYSTEM_NAME=`$demo`
 		then
 			echo "$SYSTEM_NAME"
 		else
@@ -610,7 +610,7 @@ EOF
 		fi
 		if [ "${HP_ARCH}" = "" ]; then
 		    eval $set_cc_for_build
-		    sed 's/^		//' << EOF >$placeholder.c
+		    sed 's/^		//' << EOF >$demo.c
 
 		#define _HPUX_SOURCE
 		#include <stdlib.h>
@@ -643,7 +643,7 @@ EOF
 		    exit (0);
 		}
 EOF
-		    (CCOPTS= $CC_FOR_BUILD -o $placeholder $placeholder.c 2>/dev/null) && HP_ARCH=`$placeholder`
+		    (CCOPTS= $CC_FOR_BUILD -o $demo $demo.c 2>/dev/null) && HP_ARCH=`$demo`
 		    test -z "$HP_ARCH" && HP_ARCH=hppa
 		fi ;;
 	esac
@@ -676,7 +676,7 @@ EOF
 	exit ;;
     3050*:HI-UX:*:*)
 	eval $set_cc_for_build
-	sed 's/^	//' << EOF >$placeholder.c
+	sed 's/^	//' << EOF >$demo.c
 	#include <unistd.h>
 	int
 	main ()
@@ -701,7 +701,7 @@ EOF
 	  exit (0);
 	}
 EOF
-	$CC_FOR_BUILD -o $placeholder $placeholder.c && SYSTEM_NAME=`$placeholder` &&
+	$CC_FOR_BUILD -o $demo $demo.c && SYSTEM_NAME=`$demo` &&
 		{ echo "$SYSTEM_NAME"; exit; }
 	echo unknown-hitachi-hiuxwe2
 	exit ;;
@@ -916,12 +916,12 @@ EOF
     i*86:Linux:*:*)
 	LIBC=gnu
 	eval $set_cc_for_build
-	sed 's/^	//' << EOF >$placeholder.c
+	sed 's/^	//' << EOF >$demo.c
 	#ifdef __dietlibc__
 	LIBC=dietlibc
 	#endif
 EOF
-	eval `$CC_FOR_BUILD -E $placeholder.c 2>/dev/null | grep '^LIBC'`
+	eval `$CC_FOR_BUILD -E $demo.c 2>/dev/null | grep '^LIBC'`
 	echo "${UNAME_MACHINE}-pc-linux-${LIBC}"
 	exit ;;
     ia64:Linux:*:*)
@@ -935,7 +935,7 @@ EOF
 	exit ;;
     mips:Linux:*:* | mips64:Linux:*:*)
 	eval $set_cc_for_build
-	sed 's/^	//' << EOF >$placeholder.c
+	sed 's/^	//' << EOF >$demo.c
 	#undef CPU
 	#undef ${UNAME_MACHINE}
 	#undef ${UNAME_MACHINE}el
@@ -949,7 +949,7 @@ EOF
 	#endif
 	#endif
 EOF
-	eval `$CC_FOR_BUILD -E $placeholder.c 2>/dev/null | grep '^CPU'`
+	eval `$CC_FOR_BUILD -E $demo.c 2>/dev/null | grep '^CPU'`
 	test x"${CPU}" != x && { echo "${CPU}-unknown-linux-gnu"; exit; }
 	;;
     or32:Linux:*:*)
@@ -1334,7 +1334,7 @@ esac
 #echo "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" 1>&2
 
 eval $set_cc_for_build
-cat >$placeholder.c <<EOF
+cat >$demo.c <<EOF
 #ifdef _SEQUENT_
 # include <sys/types.h>
 # include <sys/utsname.h>
@@ -1448,7 +1448,7 @@ main ()
 }
 EOF
 
-$CC_FOR_BUILD -o $placeholder $placeholder.c 2>/dev/null && SYSTEM_NAME=`$placeholder` &&
+$CC_FOR_BUILD -o $demo $demo.c 2>/dev/null && SYSTEM_NAME=`$demo` &&
 	{ echo "$SYSTEM_NAME"; exit; }
 
 # Apollos put the system type in the environment.

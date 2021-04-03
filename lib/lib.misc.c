@@ -28,19 +28,19 @@ void _alert(const char *libdir, const char *msgtype, const char *description)
 {
 	static char none[1] = "";
 	char *cmd;
-	int placeholder __attribute__((unused));
+	int demo __attribute__((unused));
 
 	if ( description==NULL ) description = none;
 
 	cmd = allocstr("%s/alert '%s' '%s' &",libdir,msgtype,description);
 	logmsg(LOG_INFO,"executing '%s'",cmd);
 
-	/* Assign return value to placeholder variable to remove compiler
+	/* Assign return value to demo variable to remove compiler
 	 * warnings. We're already trying to generate a warning; there's
 	 * no sense in generating another warning when this gives an
 	 * error.
 	 */
-	placeholder = system(cmd);
+	demo = system(cmd);
 
 	free(cmd);
 }
