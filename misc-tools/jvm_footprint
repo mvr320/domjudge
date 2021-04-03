@@ -25,13 +25,13 @@ function write_and_compile_java() {
   FIRST_BLOCK=$((80*USED_HEAP/100))
   cat > "$JAVA_CLASS".java <<EOF
 import java.util.*;
-class Dummy {
+class Placeholder {
   int value;
-  Dummy next;
-  Dummy(int value) {
+  Placeholder next;
+  Placeholder(int value) {
     this.value = value;
     if (value % 2 == 0) {
-      next = new Dummy(value - 1);
+      next = new Placeholder(value - 1);
     }
   }
 }
@@ -42,12 +42,12 @@ public class $JAVA_CLASS {
   public static int[][][] mem2;
   public static void main(String[] args) throws Exception {
     try {
-      ArrayList<Dummy> list = new ArrayList<>();
+      ArrayList<Placeholder> list = new ArrayList<>();
       for (int i = 0; i < 1000; i++) {
         int[][][] foo = new int[256][1024][5];
 	for (int j = 0; j < 100; j++) {
-	  list.add(new Dummy(i));
-	  list.add(new Dummy(j));
+	  list.add(new Placeholder(i));
+	  list.add(new Placeholder(j));
 	}
 	foo[1][2][3] = list.get(42 + i).value;
       }
