@@ -29,8 +29,8 @@ class JuryMiscControllerTest extends BaseTest
         $this->setupUser();
 
         // test incorrect and correct password
-        $this->loginHelper('demo', 'foo', 'http://localhost/login', 200);
-        $this->loginHelper('demo', 'demo', 'http://localhost/jury', 200);
+        $this->loginHelper('placeholder', 'foo', 'http://localhost/login', 200);
+        $this->loginHelper('placeholder', 'placeholder', 'http://localhost/jury', 200);
     }
 
     /**
