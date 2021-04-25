@@ -32,27 +32,17 @@ class ResetUserPasswordCommand extends Command
      */
     protected $passwordEncoder;
 
-    /**
-     * ResetUserPasswordCommand constructor.
-     *
-     * @param EntityManagerInterface       $em
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param string|null                  $name
-     */
     public function __construct(
         EntityManagerInterface $em,
         UserPasswordEncoderInterface $passwordEncoder,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
         $this->em = $em;
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('domjudge:reset-user-password')
@@ -64,10 +54,7 @@ class ResetUserPasswordCommand extends Command
             );
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $style = new SymfonyStyle($input, $output);
 
