@@ -34,10 +34,9 @@ class ResetUserPasswordCommand extends Command
 
     public function __construct(
         EntityManagerInterface $em,
-        UserPasswordEncoderInterface $passwordEncoder,
-        ?string $name = null
+        UserPasswordEncoderInterface $passwordEncoder
     ) {
-        parent::__construct($name);
+        parent::__construct();
         $this->em = $em;
         $this->passwordEncoder = $passwordEncoder;
     }
